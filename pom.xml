@@ -172,6 +172,14 @@
 		<version>1.7.5</version>
 	</dependency>
 	
+	<!-- fastjson -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.2.8</version>
+	</dependency>
+	
+	
   </dependencies>
   <build>
     <finalName>SSMMavenOA</finalName>

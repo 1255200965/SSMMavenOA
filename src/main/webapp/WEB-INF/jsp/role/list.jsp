@@ -36,8 +36,8 @@
         <tr class="TableDetail1 demodata_record">
 				<td>${role.name }&nbsp;</td>
 				<td>${role.description }&nbsp;</td>
-				<td><a onclick="return delConfirm()" href="list.html">删除</a>
-					<a href="saveUI.html">修改</a>
+				<td><a onclick="return delConfirm()" href="${pageContext.request.contextPath }/role/delete.action?id=${role.id }">删除</a>
+					<a href="${pageContext.request.contextPath }/role/editUI.action?id=${role.id }">修改</a>
 					<a href="setPrivilegeUI.html">设置权限</a>
 				</td>
 		</tr>
@@ -48,7 +48,7 @@
     <!-- 其他功能超链接 -->
     <div id="TableTail">
         <div id="TableTail_inside">
-            <a href="saveUI.html"><img src="${pageContext.request.contextPath }/style/images/createNew.png"></a>
+            <a href="${pageContext.request.contextPath }/role/addUI.action"><img src="${pageContext.request.contextPath }/style/images/createNew.png"></a>
         </div>
     </div>
 </div>
