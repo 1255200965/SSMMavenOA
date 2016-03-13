@@ -1,5 +1,7 @@
 package cn.ssm.oa.po;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Table(name = "itcast_department")
@@ -11,9 +13,32 @@ public class Department {
 
     private String description;
 
+    @Column(name="parentId") // 默认的查询是驼峰法转下划线即：parentId => parent_id导致sql错误
     private Long parentId;
+    
+    @Transient // 该注解表示本属性不是数据库表中的字段
+    private Department parent;
 
-    /**
+    @Transient
+    private List<Department> children;
+
+    public List<Department> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Department> children) {
+		this.children = children;
+	}
+
+    public Department getParent() {
+		return parent;
+	}
+
+	public void setParent(Department parent) {
+		this.parent = parent;
+	}
+
+	/**
      * @return id
      */
     public Long getId() {
