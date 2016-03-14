@@ -22,4 +22,5 @@
 	-->
 	<bean id="roleService" class="cn.ssm.oa.service.impl.RoleServiceImpl"></bean>
 	<bean id="departmentService" class="cn.ssm.oa.service.impl.DepartmentServiceImpl"></bean>
+	<bean id="userService" class="cn.ssm.oa.service.impl.UserServiceImpl"></bean>
 </beans>

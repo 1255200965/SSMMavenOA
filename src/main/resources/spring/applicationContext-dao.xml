@@ -31,6 +31,9 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"></property>
 		<property name="dataSource" ref="dataSource"></property>
+		<!-- 当mybatis的mapper.xml文件和mapper.java接口不在相同包(目录)下时，需要用mapperLocations属性指定xml文件的路径。  
+         *是个通配符，代表所有的文件，**代表所有目录下 ，如果目录固定，可以简写成classpath:mapper/*.xml-->  
+		<property name="mapperLocations" value="classpath:mapper/**/*.xml" />  
 	</bean>
 	
 	<!-- 配置mapper扫描器 -->

@@ -1,5 +1,7 @@
 package cn.ssm.oa.po;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Table(name = "itcast_user")
@@ -9,21 +11,46 @@ public class User {
 
     private String name;
 
+    @Column(name="loginName")
     private String loginName;
 
     private String password;
 
     private String gender;
 
+    @Column(name="phoneNumber")
     private String phoneNumber;
 
     private String email;
 
     private String description;
 
+    @Column(name="departmentId")
     private Long departmentId;
+    
+    @Transient
+    private Department department;
+    
+    @Transient
+    private List<Role> roles;
+    
+    public List<Role> getRoles() {
+		return roles;
+	}
 
-    /**
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	/**
      * @return id
      */
     public Long getId() {

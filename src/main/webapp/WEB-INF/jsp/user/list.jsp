@@ -37,11 +37,22 @@
         <tbody id="TableData" class="dataContainer" datakey="userList">
         <c:forEach items="${userList }" var="user">    
         <tr class="TableDetail1 demodata_record">
-                <td>${user.loginname }&nbsp;</td>
+                <td>${user.loginName }&nbsp;</td>
                 <td>${user.name }&nbsp;</td>
-                <td>研发部&nbsp;</td>
-                <td>程序员&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>${user.department.name }&nbsp;</td>
+                <td>
+               	<c:forEach items="${user.roles }" var="role" varStatus="status">
+               		<c:choose>
+               			<c:when test="${status.last }">
+               				${role.name }
+               			</c:when>
+               			<c:otherwise>
+               				${role.name },
+               			</c:otherwise>
+               		</c:choose>
+               	</c:forEach>
+                </td>
+                <td>${user.description }&nbsp;</td>
                 <td><a onclick="return delConfirm()" href="list.html">删除</a>
                     <a href="saveUI.html">修改</a>
 					<a href="#" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>

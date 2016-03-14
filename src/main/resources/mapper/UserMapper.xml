@@ -15,4 +15,31 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="departmentId" property="departmentId" jdbcType="BIGINT" />
   </resultMap>
+  
+  <resultMap id="findAllResultMap" type="cn.ssm.oa.po.User" extends="BaseResultMap">
+  	<!-- 映射department属性  -->
+  	<association property="department" javaType="cn.ssm.oa.po.Department">
+  		<id column="departmentId" property="id"/>
+  		<result column="departmentName" property="name"/>
+  	</association>
+  	<!-- 映射List<Role>集合属性 -->
+  	<collection property="roles" ofType="cn.ssm.oa.po.Role">
+  		<id column="roleId" property="id"/>
+  		<result column="roleName" property="name"/>
+  	</collection>
+  </resultMap>
+  
+  <select id="findAll" resultMap="findAllResultMap">
+	SELECT
+		u.*,
+		d.name departmentName,
+		ur.roleId,
+		r.name roleName
+	FROM
+		itcast_user u
+	LEFT OUTER JOIN itcast_department d ON u.departmentId = d.id
+	LEFT OUTER JOIN itcast_user_role ur ON u.id = ur.userId
+	LEFT OUTER JOIN itcast_role r ON ur.roleId=r.id
+  </select>
+  
 </mapper>
