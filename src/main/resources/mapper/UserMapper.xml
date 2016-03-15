@@ -42,4 +42,43 @@
 	LEFT OUTER JOIN itcast_role r ON ur.roleId=r.id
   </select>
   
+  <!-- 插入用户表基本数据，并且返回自增主键的值，使得随后调用的user.getId()能获取到值 -->
+  <insert id="save" parameterType="cn.ssm.oa.po.User">
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+  	select LAST_INSERT_ID() 
+  </selectKey>
+  	INSERT INTO itcast_user (
+		name,
+		loginName,
+		password,
+		gender,
+		phoneNumber,
+		email,
+		description,
+		departmentId
+	)
+	VALUES
+		(
+			#{name},
+			#{loginName},
+			#{password},
+			#{gender},
+			#{phoneNumber},
+			#{email},
+			#{description},
+			#{departmentId}
+		)
+  </insert>
+  
+  <!-- 维护新增用户岗位设置的关联关系,采用循环(批量)插入的方式
+  		如：INSERT INTO itcast_user_role VALUES (139,1),(139,2)
+   -->
+  <insert id="inserUserRole" parameterType="cn.ssm.oa.po.User">
+  	INSERT INTO itcast_user_role
+	VALUES
+	<foreach collection="roles" item="role" separator="," >  
+        (#{id},#{role.id})  
+    </foreach> 
+  </insert>
+  
 </mapper>

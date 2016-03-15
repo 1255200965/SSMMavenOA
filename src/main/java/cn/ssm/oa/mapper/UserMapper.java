@@ -12,4 +12,16 @@ public interface UserMapper extends Mapper<User> {
 	 * @return
 	 */
 	List<User> findAll();
+	
+	/**
+	 * 插入用户表的基本数据(没有维护与岗位的关联关系)
+	 * @param user
+	 */
+	void save(User user);
+	
+	/**
+	 * 插入新增用户相关联的用户角色数据
+	 * @param user
+	 */
+	void inserUserRole(User user);
 }

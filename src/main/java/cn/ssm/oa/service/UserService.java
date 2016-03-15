@@ -8,7 +8,7 @@ public interface UserService {
 
 	List<User> findAll();
 	
-	void save(User user);
+	void save(User user, Long[] roleIdList);
 
 	User findById(Long id);
 

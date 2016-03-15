@@ -1,12 +1,16 @@
 package cn.ssm.oa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.ssm.oa.mapper.DepartmentMapper;
+import cn.ssm.oa.mapper.RoleMapper;
 import cn.ssm.oa.mapper.UserMapper;
 import cn.ssm.oa.po.Department;
+import cn.ssm.oa.po.Role;
 import cn.ssm.oa.po.User;
 import cn.ssm.oa.service.UserService;
 
@@ -14,8 +18,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-//	@Autowired
-//	private DepartmentMapper departmentMapper;
+	@Autowired
+	private RoleMapper roleMapper;
 	
 	@Override
 	public List<User> findAll() {
@@ -37,8 +41,25 @@ public class UserServiceImpl implements UserService {
 //	}
 
 	@Override
-	public void save(User user) {
-		userMapper.insertSelective(user);
+	public void save(User user, Long[] roleIdList) {
+		List<Role> roles = new ArrayList<Role>();
+		if (roleIdList != null && roleIdList.length > 0) {
+			for (Long id : roleIdList) {
+				roles.add(roleMapper.selectByPrimaryKey(id));
+			}
+			user.setRoles(roles);
+		}
+		user.setPassword(DigestUtils.md5Hex("1234")); // 新增用户的默认密码为‘1234’的MD5加密
+		if (user.getDepartmentId() == 0) { // 没有选择所属部门
+			user.setDepartmentId(null);
+		}
+		userMapper.save(user);
+		
+		/*
+		 * 维护与岗位的关联关系
+		 */
+		userMapper.inserUserRole(user);
+		
 	}
 
 	@Override
