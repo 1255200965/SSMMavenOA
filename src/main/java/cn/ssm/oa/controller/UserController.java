@@ -3,6 +3,7 @@ package cn.ssm.oa.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,17 +44,47 @@ public class UserController {
 		model.addAttribute("departmentList", departmentList);
 		List<Role> roleList = roleService.findAll();
 		model.addAttribute("roleList", roleList);
+		// 为了让saveUI.jsp的form表单commandName="user"有值，使其editUI能用SpringMVC表单标签回显
+		model.addAttribute("user", new User());
 		return "user/saveUI";
 	}
 	
 	@RequestMapping("/add")
 	public String add(User user, Long[] roleIdList) throws Exception {
-//		Department department = departmentService.getById(user.getDepartmentId());
-//		user.setDepartment(department);
-//		System.out.println(Arrays.toString(roleIdList));
-		System.out.println(JSON.toJSONString(roleIdList));
-		System.out.println(JSON.toJSONString(user));
 		userService.save(user, roleIdList);
+		return "forward:list.action";
+	}
+	
+	@RequestMapping("/delete")
+	public String delete(Long id) {
+		userService.delete(id);
+		return "forward:list.action";
+	}
+	
+	@RequestMapping("/initPassword")
+	public String initPassword(Long id) {
+		User user = userService.findById(id);
+		user.setPassword(DigestUtils.md5Hex("1234"));
+		userService.update(user);
+		return "forward:list.action";
+	}
+
+	@RequestMapping("/editUI")
+	public String editUI(Model model, Long id) throws Exception {
+		List<Department> topList = departmentService.findTopList();
+		List<Department> departmentList = DepartmentUtils.getAllDepartments(topList);
+		model.addAttribute("departmentList", departmentList);
+		List<Role> roleList = roleService.findAll();
+		model.addAttribute("roleList", roleList);
+		// 返回用户完整关联关系(角色,部门可以不用，由departmentId代替)的用户
+		User user = userService.getUserById(id); 
+		model.addAttribute("user", user);
+		return "user/saveUI";
+	}
+
+	@RequestMapping("/edit")
+	public String edit(User user) throws Exception {
+		userService.update(user);
 		return "forward:list.action";
 	}
 }

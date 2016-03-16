@@ -81,4 +81,24 @@
     </foreach> 
   </insert>
   
+  <!-- 根据用户的id删除和相应岗位关联的记录 -->
+  <delete id="deleteUserRole" parameterType="long">
+  	DELETE FROM itcast_user_role WHERE userId=#{id}
+  </delete>
+  
+  <!-- 根据用户的id获取拥有岗位关联关系和部门关联关系(部门关联可以省略)的用户 -->
+  <select id="getUserById" parameterType="long" resultMap="findAllResultMap">
+  	SELECT
+		u.*, d. name departmentName,
+		ur.roleId,
+		r. name roleName
+	FROM
+		itcast_user u
+	LEFT OUTER JOIN itcast_department d ON u.departmentId = d.id
+	LEFT OUTER JOIN itcast_user_role ur ON u.id = ur.userId
+	LEFT OUTER JOIN itcast_role r ON ur.roleId = r.id
+	WHERE
+		u.id = #{id}
+  </select>
+  
 </mapper>

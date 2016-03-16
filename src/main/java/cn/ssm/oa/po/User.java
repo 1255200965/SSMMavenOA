@@ -34,7 +34,18 @@ public class User {
     @Transient
     private List<Role> roles;
     
-    public List<Role> getRoles() {
+    @Transient
+    private Long[] roleIdList;
+    
+    public Long[] getRoleIdList() {
+		return roleIdList;
+	}
+
+	public void setRoleIdList(Long[] roleIdList) {
+		this.roleIdList = roleIdList;
+	}
+
+	public List<Role> getRoles() {
 		return roles;
 	}
 

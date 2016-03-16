@@ -24,4 +24,17 @@ public interface UserMapper extends Mapper<User> {
 	 * @param user
 	 */
 	void inserUserRole(User user);
+
+	/**
+	 * 根据用户的id删除和岗位相关的记录
+	 * @param id
+	 */
+	void deleteUserRole(Long id);
+	
+	/**
+	 * 根据用户的id获取拥有岗位关联关系和部门关联关系(部门关联可以省略)的用户
+	 * @param id
+	 * @return
+	 */
+	User getUserById(Long id);
 }
