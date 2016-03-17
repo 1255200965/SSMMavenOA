@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 import cn.ssm.oa.po.Department;
 import cn.ssm.oa.po.Role;
@@ -30,12 +31,26 @@ public class UserController {
 	@Autowired
 	private RoleService roleService;
 	
+	/**
+	 * 分页查询用户记录
+	 * @param model
+	 * @param pageNum 当前页参数，每次都将封装到page对象中(源代码体现)(页面可以回显)
+	 * @param pageSize 每页显示的记录条数，每次都将封装到page对象中(页面可以回显)
+	 * @return
+	 */
 	@RequestMapping("/list")
-	public String list(Model model) {
-		List<User> list = userService.findAll();
-		model.addAttribute("userList", list);
+	public String list(Model model, Integer pageNum, Integer pageSize) {
+		PageInfo<User> page = userService.findAllByPage(pageNum, pageSize);
+		model.addAttribute("page", page);
 		return "user/list";
 	}
+	
+//	@RequestMapping("/list")
+//	public String list(Model model) {
+//		List<User> list = userService.findAll();
+//		model.addAttribute("userList", list);
+//		return "user/list";
+//	}
 	
 	@RequestMapping("/addUI")
 	public String addUI(Model model) throws Exception {

@@ -2,6 +2,7 @@ package cn.ssm.oa.mapper;
 
 import java.util.List;
 
+import cn.ssm.oa.po.Role;
 import cn.ssm.oa.po.User;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -37,4 +38,10 @@ public interface UserMapper extends Mapper<User> {
 	 * @return
 	 */
 	User getUserById(Long id);
+
+	/**
+	 * 根据用户id查询该用户的岗位列表
+	 * @return
+	 */
+	List<Role> findUserRoleListByUserId(Long id);
 }

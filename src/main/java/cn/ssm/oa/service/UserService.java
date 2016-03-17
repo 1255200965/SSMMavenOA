@@ -2,6 +2,8 @@ package cn.ssm.oa.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
+
 import cn.ssm.oa.po.User;
 
 public interface UserService {
@@ -17,4 +19,6 @@ public interface UserService {
 	void delete(Long id);
 
 	User getUserById(Long id);
+	
+	PageInfo<User> findAllByPage(Integer pageNum, Integer pageSize);
 }

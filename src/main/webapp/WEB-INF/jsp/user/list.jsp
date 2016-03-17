@@ -35,7 +35,7 @@
         
         <!--显示数据列表-->
         <tbody id="TableData" class="dataContainer" datakey="userList">
-        <c:forEach items="${userList }" var="user">    
+        <c:forEach items="${page.list }" var="user">    
         <tr class="TableDetail1 demodata_record">
                 <td>${user.loginName }&nbsp;</td>
                 <td>${user.name }&nbsp;</td>
@@ -70,6 +70,9 @@
     </div>
 </div>
 
+<!-- 分页信息 -->
+<%@ include  file="/WEB-INF/jsp/public/pageView.jspf"%>
+<form action="${pageContext.request.contextPath }/user/list.action" method="post"></form>
 
 
 </body></html>

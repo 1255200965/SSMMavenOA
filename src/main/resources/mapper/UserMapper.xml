@@ -101,4 +101,16 @@
 		u.id = #{id}
   </select>
   
+  <!-- 根据用户id查询该用户的岗位列表  sqlMapConfig.xml中批量配置了别名-->
+  <select id="findUserRoleListByUserId" parameterType="long" resultType="role">
+  	SELECT
+		r.*
+	FROM
+		itcast_user_role ur,
+		itcast_role r
+	WHERE
+		ur.roleId = r.id
+	AND ur.userId = #{id}
+  </select>
+  
 </mapper>
