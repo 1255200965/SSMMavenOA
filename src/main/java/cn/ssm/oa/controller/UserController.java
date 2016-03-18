@@ -3,6 +3,8 @@ package cn.ssm.oa.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,5 +103,31 @@ public class UserController {
 	public String edit(User user) throws Exception {
 		userService.update(user);
 		return "forward:list.action";
+	}
+	
+	@RequestMapping("/loginUI")
+	public String loginUI() {
+		return "user/loginUI";
+	}
+	
+	@RequestMapping("/login")
+	public String login(Model model, HttpSession session, String loginName, String password) {
+		User user = userService.findByLoginNameAndPassword(loginName, DigestUtils.md5Hex(password));
+		if (user == null) {
+			model.addAttribute("msg", "登录名或者密码错误！");
+			model.addAttribute("loginName", loginName);
+			model.addAttribute("password", password);
+			return "user/loginUI";
+		} else {
+			session.setAttribute("user", user);
+			return "redirect:/index.jsp";
+		}
+	}
+
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate(); // 使session失效，并清空session占用的空间
+//		session.removeAttribute("user"); // 删除session的user属性，不会清空session所占用的空间
+		return "user/logout";
 	}
 }

@@ -21,4 +21,6 @@ public interface UserService {
 	User getUserById(Long id);
 	
 	PageInfo<User> findAllByPage(Integer pageNum, Integer pageSize);
+
+	User findByLoginNameAndPassword(String loginName, String password);
 }

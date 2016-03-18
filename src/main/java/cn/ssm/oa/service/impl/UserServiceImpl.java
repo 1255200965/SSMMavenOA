@@ -16,6 +16,7 @@ import cn.ssm.oa.po.Department;
 import cn.ssm.oa.po.Role;
 import cn.ssm.oa.po.User;
 import cn.ssm.oa.service.UserService;
+import tk.mybatis.mapper.entity.Example;
 
 public class UserServiceImpl implements UserService {
 
@@ -179,6 +180,20 @@ public class UserServiceImpl implements UserService {
 		 */
 		PageInfo<User> page = new PageInfo<User>(list, 10);
 		return page;
+	}
+
+	/**
+	 * 通过登录名和密码查询用户
+	 */
+	@Override
+	public User findByLoginNameAndPassword(String loginName, String password) {
+		Example example = new Example(User.class);
+		example.or().andEqualTo("loginName", loginName).andEqualTo("password", password);
+		List<User> list = userMapper.selectByExample(example);
+		if (list != null && !list.isEmpty()) {
+			return list.get(0);
+		}
+		return null;
 	}
 
 }
