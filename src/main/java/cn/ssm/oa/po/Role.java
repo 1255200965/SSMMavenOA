@@ -1,5 +1,7 @@
 package cn.ssm.oa.po;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Table(name = "itcast_role")
@@ -10,8 +12,30 @@ public class Role {
     private String name;
 
     private String description;
+    
+    @Transient
+    private List<Privilege> privileges;
+    
+    @Transient
+    private Long[] privilegeIds;
 
-    /**
+    public List<Privilege> getPrivileges() {
+		return privileges;
+	}
+
+	public void setPrivileges(List<Privilege> privileges) {
+		this.privileges = privileges;
+	}
+
+	public Long[] getPrivilegeIds() {
+		return privilegeIds;
+	}
+
+	public void setPrivilegeIds(Long[] privilegeIds) {
+		this.privilegeIds = privilegeIds;
+	}
+
+	/**
      * @return id
      */
     public Long getId() {

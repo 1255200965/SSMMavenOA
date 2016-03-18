@@ -58,4 +58,11 @@ public class RoleController {
 		roleService.delete(id);
 		return "forward:list.action";
 	}
+	
+	@RequestMapping("/setPrivilegeUI")
+	public String setPrivilegeUI(Model model, Long id) {
+		Role role = roleService.findById(id); // 包括关联的权限列表
+		model.addAttribute("role", role);
+		return "role/setPrivilegeUI";
+	}
 }

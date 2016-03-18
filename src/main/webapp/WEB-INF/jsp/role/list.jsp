@@ -38,7 +38,7 @@
 				<td>${role.description }&nbsp;</td>
 				<td><a onclick="return delConfirm()" href="${pageContext.request.contextPath }/role/delete.action?id=${role.id }">删除</a>
 					<a href="${pageContext.request.contextPath }/role/editUI.action?id=${role.id }">修改</a>
-					<a href="setPrivilegeUI.html">设置权限</a>
+					<a href="${pageContext.request.contextPath }/role/setPrivilegeUI.action?id=${role.id }">设置权限</a>
 				</td>
 		</tr>
 		</c:forEach>

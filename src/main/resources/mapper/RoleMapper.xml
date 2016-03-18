@@ -9,4 +9,27 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap type="role" id="findByIdResultMap" extends="BaseResultMap">
+  	<collection property="privileges" ofType="privilege">
+  		<id column="privilegeId" property="id" />
+  		<result column="privilegeName" property="name" />
+  	</collection>
+  </resultMap>
+  
+  <!-- 获得包括关联的权限列表的岗位 -->
+  <select id="findById" parameterType="long" resultMap="findByIdResultMap">
+  	SELECT
+		r.*, rp.privilegeId,
+		p. NAME privilegeName
+	FROM
+		itcast_role r,
+		itcast_role_privilege rp,
+		itcast_privilege p
+	WHERE
+		r.id = rp.roleId
+	AND rp.privilegeId = p.id
+	AND r.id = #{id}
+  </select>
+  
 </mapper>

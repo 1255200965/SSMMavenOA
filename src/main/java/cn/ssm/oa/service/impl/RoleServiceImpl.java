@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.ssm.oa.mapper.RoleMapper;
+import cn.ssm.oa.po.Privilege;
 import cn.ssm.oa.po.Role;
 import cn.ssm.oa.service.RoleService;
 
@@ -23,9 +24,25 @@ public class RoleServiceImpl implements RoleService {
 		roleMapper.insertSelective(role);
 	}
 
+	/**
+	 * 获得包括关联的权限列表的岗位
+	 */
 	@Override
 	public Role findById(Long id) {
-		return roleMapper.selectByPrimaryKey(id);
+		Role role = roleMapper.findById(id); // 自定义方法，包含关联关系
+		/*
+		 * 给页面要使用的privilegeIds设置值，用于表单标签回显数据
+		 */
+		List<Privilege> privileges = role.getPrivileges();
+		Long[] privilegeIds = null;
+		if (privileges != null && !privileges.isEmpty()) {
+			privilegeIds = new Long[privileges.size()];
+			for (int i = 0; i < privileges.size(); i++) {
+				privilegeIds[i] = privileges.get(i).getId();
+			}
+		}
+		role.setPrivilegeIds(privilegeIds);
+		return role;
 	}
 
 	@Override

@@ -10,4 +10,32 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="parentId" property="parentId" jdbcType="BIGINT" />
   </resultMap>
+  
+  <!-- 
+  	经过尝试不能将自关联的表，权限有一对一的上级权限，和一对多的下级权限，
+  	不能一次性映射得到顶级权限列表，其中顶级权限包含子权限，子权限包含子孙权限(相当于树形结构)
+  	
+   -->
+  <!-- <resultMap id="findTopListResultMap" type="privilege" extends="BaseResultMap">
+  	<collection property="children" ofType="privilege">
+  		<id column="childId" property="id"/>
+  		<result column="childName" property="name"/>
+  		<result column="childUrl" property="url"/>
+  		<result column="childParentId" property="parentId"/>
+  	</collection>
+  </resultMap>
+  
+  <select id="findTopList" resultMap="findTopListResultMap">
+  	SELECT
+		p1.*, p2.id childId,
+		p2. NAME childName,
+		p2.url childUrl,
+		p2.parentId childParentId
+	FROM
+		itcast_privilege p1,
+		itcast_privilege p2
+	WHERE
+		p1.id = p2.parentId
+  </select> -->
+  
 </mapper>

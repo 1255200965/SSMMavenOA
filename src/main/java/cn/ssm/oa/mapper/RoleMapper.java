@@ -4,4 +4,6 @@ import cn.ssm.oa.po.Role;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface RoleMapper extends Mapper<Role> {
+
+	Role findById(Long id);
 }
