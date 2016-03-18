@@ -16,5 +16,7 @@ public interface RoleService {
 
 	void delete(Long id);
 
+	void updateRolePrivilege(Role role);
+
 	
 }

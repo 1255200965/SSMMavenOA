@@ -65,4 +65,12 @@ public class RoleController {
 		model.addAttribute("role", role);
 		return "role/setPrivilegeUI";
 	}
+	
+	@RequestMapping("/setPrivilege")
+	public String setPrivilege(Model model, Long id, Long[] privilegeIds) {
+		Role role = roleService.findById(id);
+		role.setPrivilegeIds(privilegeIds);
+		roleService.updateRolePrivilege(role);
+		return "forward:list.action";
+	}
 }

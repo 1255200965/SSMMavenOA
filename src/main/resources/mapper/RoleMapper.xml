@@ -32,4 +32,22 @@
 	AND r.id = #{id}
   </select>
   
+  <!-- 删除该岗位之前关联的权限记录 -->
+  <delete id="deleteRolePrivilege" parameterType="long">
+  	DELETE
+	FROM
+		itcast_role_privilege
+	WHERE
+		roleId = #{id}
+  </delete>
+  
+  <!-- 插入该岗位设置的最新权限记录 -->
+  <insert id="insertRolePrivilege" parameterType="role">
+  	INSERT INTO itcast_role_privilege
+  	VALUES
+	<foreach collection="privilegeIds" item="privilegeId" separator=",">
+		(#{id}, #{privilegeId})
+	</foreach>
+  </insert>
+  
 </mapper>

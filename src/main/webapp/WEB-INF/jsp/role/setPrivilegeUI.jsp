@@ -50,7 +50,7 @@
 <!--显示表单内容-->
 <div id=MainArea>
 
-    <form:form action="role_setPrivilege" method="post" commandName="role">
+    <form:form action="${pageContext.request.contextPath}/role/setPrivilege.action" method="post" commandName="role">
     	<form:hidden path="id"></form:hidden>
     
         <div class="ItemBlock_Title1"><!-- 信息说明 --><div class="ItemBlock_Title1">

@@ -55,4 +55,15 @@ public class RoleServiceImpl implements RoleService {
 		roleMapper.deleteByPrimaryKey(id);
 	}
 
+	/**
+	 * 修改岗位的权限
+	 * 	策略：首先删除关联表有关该岗位的所有记录
+	 * 		然后插入该岗位设置的新权限纪录
+	 */
+	@Override
+	public void updateRolePrivilege(Role role) {
+		roleMapper.deleteRolePrivilege(role.getId());
+		roleMapper.insertRolePrivilege(role);
+	}
+
 }
