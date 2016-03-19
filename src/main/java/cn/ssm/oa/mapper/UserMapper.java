@@ -44,4 +44,11 @@ public interface UserMapper extends Mapper<User> {
 	 * @return
 	 */
 	List<Role> findUserRoleListByUserId(Long id);
+
+	/**
+	 * 根据登录名和密码查询登录用户包括关联的岗位数据及岗位所拥有的权限数据
+	 * @param user
+	 * @return
+	 */
+	User findByLoginNameAndPassword(User user);
 }

@@ -187,13 +187,11 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User findByLoginNameAndPassword(String loginName, String password) {
-		Example example = new Example(User.class);
-		example.or().andEqualTo("loginName", loginName).andEqualTo("password", password);
-		List<User> list = userMapper.selectByExample(example);
-		if (list != null && !list.isEmpty()) {
-			return list.get(0);
-		}
-		return null;
+		User user = new User();
+		user.setLoginName(loginName);
+		user.setPassword(password);
+		// 调用自定义方法：根据登录名和密码查询登录用户包括关联的岗位数据及岗位所拥有的权限数据
+		return userMapper.findByLoginNameAndPassword(user); 
 	}
 
 }

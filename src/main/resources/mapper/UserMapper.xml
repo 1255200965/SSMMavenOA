@@ -113,4 +113,35 @@
 	AND ur.userId = #{id}
   </select>
   
+  <resultMap type="user" id="findLoginUser" extends="BaseResultMap">
+  	<collection property="roles" ofType="role">
+  		<id column="roleId" property="id"/>
+  		<result column="roleName" property="name"/>
+  		<collection property="privileges" ofType="privilege">
+  			<id column="privilegeId" property="id"/>
+  			<result column="privilegeName" property="name"/>
+  			<result column="privilegeUrl" property="url"/>
+  		</collection>
+  	</collection>
+  </resultMap>
+  
+  <!-- 根据登录名和密码查询登录用户包括关联的岗位数据及岗位所拥有的权限数据 -->
+  <select id="findByLoginNameAndPassword" parameterType="user" resultMap="findLoginUser">
+	SELECT
+		u.*, ur.roleId,
+		r. NAME roleName,
+		p.id privilegeId,
+		p. NAME privilegeName,
+		p.url privilegeUrl
+	FROM
+		itcast_user u
+	LEFT OUTER JOIN itcast_user_role ur ON u.id = ur.userId
+	LEFT OUTER JOIN itcast_role r ON ur.roleId = r.id
+	LEFT OUTER JOIN itcast_role_privilege rp ON r.id = rp.roleId
+	LEFT OUTER JOIN itcast_privilege p ON rp.privilegeId = p.id
+	WHERE
+		u.loginName = #{loginName}
+	AND u. PASSWORD = #{password}
+  </select>
+  
 </mapper>
