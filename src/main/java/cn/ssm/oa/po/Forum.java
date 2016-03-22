@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Table(name = "itcast_forum")
 public class Forum {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -13,10 +14,13 @@ public class Forum {
 
     private Integer position;
 
+    @Column(name="topicCount")
     private Integer topicCount;
 
+    @Column(name="articleCount")
     private Integer articleCount;
 
+    @Column(name="lastTopicId")
     private Long lastTopicId;
 
     /**
