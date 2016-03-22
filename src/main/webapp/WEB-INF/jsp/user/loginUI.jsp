@@ -7,7 +7,19 @@
 <HEAD>
     <META http-equiv=Content-Type CONTENT="text/html; charset=gbk" />
 	<TITLE>Itcast OA</TITLE>
+	<%@ include file="/WEB-INF/jsp/public/commons.jspf" %>
 	<LINK HREF="${pageContext.request.contextPath }/style/blue/login.css" type=text/css rel=stylesheet />
+	<script type="text/javascript">
+		/* 页面加载完时登录的用户名输入框自动获取光标焦点 */
+		$(function () {
+			document.forms[0].loginName.focus();
+		});
+		
+		/* 登录页面被嵌套问题:被嵌套是就刷新上级窗口 */
+		if (window.parent != window) {
+			window.parent.location.reload(true);			
+		}
+	</script>
 </HEAD>
 
 <BODY LEFTMARGIN=0 TOPMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0 CLASS=PageBody >

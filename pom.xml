@@ -231,6 +231,12 @@
                <scanIntervalSeconds>5</scanIntervalSeconds>
                <webApp>
                    <contextPath>/</contextPath>
+                   <!-- 为Maven Jetty插件启用会话持久性 -->
+                   <sessionHandler implementation="org.eclipse.jetty.server.session.SessionHandler">
+			        <sessionManager implementation="org.eclipse.jetty.server.session.HashSessionManager">
+			          <storeDirectory>${basedir}/target/sessions</storeDirectory>
+			        </sessionManager>
+			       </sessionHandler>
                </webApp>
                <connectors>
                     <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "itcast_department")
-public class Department {
+public class Department implements java.io.Serializable {
     @Id
     private Long id;
 

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "itcast_role")
-public class Role {
+public class Role implements java.io.Serializable {
     @Id
     private Long id;
 
