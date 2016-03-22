@@ -38,4 +38,8 @@
 		p1.id = p2.parentId
   </select> -->
   
+  <select id="getAllPrivilegeUrls" resultType="string">
+  	SELECT DISTINCT url FROM itcast_privilege WHERE url IS NOT NULL
+  </select>
+  
 </mapper>

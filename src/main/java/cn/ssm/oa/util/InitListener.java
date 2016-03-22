@@ -1,5 +1,6 @@
 package cn.ssm.oa.util;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletContextEvent;
@@ -28,6 +29,13 @@ public class InitListener implements ServletContextListener {
     	List<Privilege> topPrivilegeList = privilegeService.findTopList();
     	sce.getServletContext().setAttribute("topPrivilegeList", topPrivilegeList);
     	System.out.println("======== InitListener.contextInitialized().topPrivilegeList ========");
+    	
+    	/*
+    	 * 获取所有不为空且不重复的权限url，保存到ServletContext作用域中
+    	 */
+    	Collection<String> allPrivilegeUrls = privilegeService.getAllPrivilegeUrls();
+    	sce.getServletContext().setAttribute("allPrivilegeUrls", allPrivilegeUrls);
+    	System.out.println("======== InitListener.contextInitialized().allPrivilegeUrls ========");
     }
 
     public void contextDestroyed(ServletContextEvent sce)  { 

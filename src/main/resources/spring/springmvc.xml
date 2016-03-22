@@ -28,4 +28,12 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<!-- 检查权限拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="cn.ssm.oa.util.CheckPrivilegeInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 </beans>

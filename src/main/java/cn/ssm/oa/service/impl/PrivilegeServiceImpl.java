@@ -1,5 +1,6 @@
 package cn.ssm.oa.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,14 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 		Example example = new Example(Privilege.class);
 		example.or().andEqualTo("parentId", id);
 		return privilegeMapper.selectByExample(example);
+	}
+
+	/**
+	 * 查询所有权限URL的集合(去重复)
+	 */
+	@Override
+	public Collection<String> getAllPrivilegeUrls() {
+		return privilegeMapper.getAllPrivilegeUrls();
 	}
 
 }
