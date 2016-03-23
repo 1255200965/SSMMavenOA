@@ -10,14 +10,19 @@ public class Reply {
 
     private String title;
 
+    @Column(name="faceIcon")
     private String faceIcon;
 
+    @Column(name="postTime")
     private Date postTime;
 
+    @Column(name="ipAddr")
     private String ipAddr;
 
+    @Column(name="authorId")
     private Long authorId;
 
+    @Column(name="topicId")
     private Long topicId;
 
     private String content;

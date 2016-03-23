@@ -186,6 +186,15 @@
 		<version>1.10</version>
 	</dependency>
 	
+	<!-- 使用懒加载(延迟加载所需的cglib)
+	太高版本的如3.2.1提示spring部分xml配置文件红叉报错，但是能正常运行 -->
+	<dependency>
+		<groupId>cglib</groupId>
+		<artifactId>cglib</artifactId>
+		<version>2.2.2</version>
+	</dependency>
+	
+	
 	
 	
   </dependencies>

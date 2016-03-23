@@ -10,27 +10,46 @@ public class Topic {
 
     private String title;
 
+    @Column(name="faceIcon")
     private String faceIcon;
 
+    @Column(name="postTime")
     private Date postTime;
 
+    @Column(name="ipAddr")
     private String ipAddr;
 
+    @Column(name="authorId")
     private Long authorId;
 
     private Integer type;
 
+    @Column(name="replyCount")
     private Integer replyCount;
 
+    @Column(name="lastUpdateTime")
     private Date lastUpdateTime;
 
+    @Column(name="forumId")
     private Long forumId;
 
+    @Column(name="lastReplyId")
     private Long lastReplyId;
 
     private String content;
+    
+    @Transient
+    private User author; 
 
-    /**
+    public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	/**
      * @return id
      */
     public Long getId() {

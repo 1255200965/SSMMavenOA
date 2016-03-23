@@ -22,8 +22,19 @@ public class Forum {
 
     @Column(name="lastTopicId")
     private Long lastTopicId;
+    
+    @Transient
+    private Topic lastTopic;
 
-    /**
+    public Topic getLastTopic() {
+		return lastTopic;
+	}
+
+	public void setLastTopic(Topic lastTopic) {
+		this.lastTopic = lastTopic;
+	}
+
+	/**
      * @return id
      */
     public Long getId() {

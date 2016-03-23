@@ -13,4 +13,44 @@
     <result column="articleCount" property="articleCount" jdbcType="INTEGER" />
     <result column="lastTopicId" property="lastTopicId" jdbcType="BIGINT" />
   </resultMap>
+  
+  <!-- 关联查询每次完整的加载关联信息，立即加载 -->
+  <!-- <resultMap type="forum" id="findAllResultMap" extends="BaseResultMap">
+  	<association property="lastTopic" column="lastTopicId" javaType="topic">
+  		<id column="lastTopicId" property="id" />
+  		<result column="title" property="title" />
+  		<result column="authorId" property="authorId" />
+  		<result column="postTime" property="postTime" />
+  		<association property="author" column="authorId" javaType="user">
+  			<id column="authorId" property="id" />
+  			<result column="authorName" property="name" />
+  		</association>
+  	</association>
+  </resultMap>
+  
+  <select id="findAll" resultMap="findAllResultMap">
+  	SELECT
+		f.*, t.title,
+		t.authorId,
+		t.postTime,
+		u. NAME authorName
+	FROM
+		itcast_forum f
+	LEFT OUTER JOIN itcast_topic t ON f.lastTopicId = t.id
+	LEFT OUTER JOIN itcast_user u ON t.authorId = u.id
+	ORDER BY
+		f.position
+  </select> -->
+  
+  <!-- 采用延迟加载(懒加载)模式，使用到属性在通过id关联查询，没有使用到不关联查询关联属性 -->
+  <resultMap type="forum" id="findAllLazyLoadingResultMap" extends="BaseResultMap">
+  	<association property="lastTopic" column="lastTopicId" javaType="topic" select="cn.ssm.oa.mapper.TopicMapper.getById">
+  	</association>
+  </resultMap>
+  
+  <!-- 主查询采用单表查询 -->
+  <select id="findAll" resultMap="findAllLazyLoadingResultMap">
+  	SELECT * FROM itcast_forum ORDER BY position
+  </select>
+  
 </mapper>

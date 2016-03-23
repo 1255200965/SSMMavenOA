@@ -18,4 +18,17 @@
     <result column="lastReplyId" property="lastReplyId" jdbcType="BIGINT" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
+  
+  <!-- 懒加载方式关联作者信息 -->
+  <resultMap type="topic" id="getByIdLazyLoadingResultMap" extends="BaseResultMap">
+  	<association property="author" column="authorId" javaType="user" select="cn.ssm.oa.mapper.UserMapper.selectByPrimaryKey">
+  	</association>
+  </resultMap>
+  
+  <!-- 自定义根据id查询主题记录，而不使用通用mapper自带接口selectByPrimaryKey
+	 	原因：使用懒加载模式，必须重写根据id查询记录的方法 -->
+  <select id="getById" parameterType="long" resultMap="getByIdLazyLoadingResultMap">
+  	SELECT * FROM itcast_topic WHERE id = #{id}
+  </select>
+  
 </mapper>

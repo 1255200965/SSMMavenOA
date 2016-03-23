@@ -20,9 +20,16 @@ public class ForumServiceImpl implements ForumService {
 	 */
 	@Override
 	public List<Forum> findAll() {
-		Example example = new Example(Forum.class);
-		example.setOrderByClause("position"); // 添加order by条件
-		return forumMapper.selectByExample(example);
+		// v1.0 通过通用mapper的基本接口查询所有(不包括关联关系的数据)
+//		Example example = new Example(Forum.class);
+//		example.setOrderByClause("position"); // 添加order by条件
+//		return forumMapper.selectByExample(example);
+		
+		/*
+		 * v2.0 懒加载方式调用自定义函数，返回包括最后主题关联关系的数据
+		 * (没用到就不加载主题数据),并且根据position升序排列
+		 */
+		return forumMapper.findAll(); 
 	}
 
 	@Override
@@ -67,6 +74,8 @@ public class ForumServiceImpl implements ForumService {
 		List<Forum> forumList = forumMapper.selectByExample(example);
 		if (forumList != null && !forumList.isEmpty()) {
 			other = forumList.get(0);
+		} else { // 最上面的不能上移，即other=null
+			return;
 		}
 		int temp = forum.getPosition(); // 用来做交换的临时变量
 		forum.setPosition(other.getPosition());
@@ -85,6 +94,8 @@ public class ForumServiceImpl implements ForumService {
 		List<Forum> forumList = forumMapper.selectByExample(example);
 		if (forumList != null && !forumList.isEmpty()) {
 			other = forumList.get(0);
+		} else { // 最下面的不能下移，即other=null
+			return;
 		}
 		int temp = forum.getPosition(); // 用来做交换的临时变量
 		forum.setPosition(other.getPosition());
