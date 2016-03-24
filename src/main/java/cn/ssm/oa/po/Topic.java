@@ -40,8 +40,19 @@ public class Topic {
     
     @Transient
     private User author; 
+    
+    @Transient
+    private Reply lastReply;
 
-    public User getAuthor() {
+    public Reply getLastReply() {
+		return lastReply;
+	}
+
+	public void setLastReply(Reply lastReply) {
+		this.lastReply = lastReply;
+	}
+
+	public User getAuthor() {
 		return author;
 	}
 

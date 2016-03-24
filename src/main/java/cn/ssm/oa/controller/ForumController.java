@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
 import cn.ssm.oa.po.Forum;
 import cn.ssm.oa.po.Topic;
 import cn.ssm.oa.service.ForumService;
@@ -28,12 +30,20 @@ public class ForumController {
 		return "forum/list";
 	}
 	
+	/**
+	 * 分页查询主题列表记录
+	 * @param model
+	 * @param id
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
 	@RequestMapping("/show")
-	public String show(Model model, Long id) {
+	public String show(Model model, Long id, Integer pageNum, Integer pageSize) {
 		Forum forum = forumService.getById(id);
 		model.addAttribute("forum", forum);
-		List<Topic> topicList = topicService.findByForumId(id);
-		model.addAttribute("topicList", topicList);
+		PageInfo<Topic> page = topicService.findByForumIdPage(id, pageNum, pageSize);
+		model.addAttribute("page", page);
 		return "forum/show";
 	}
 }

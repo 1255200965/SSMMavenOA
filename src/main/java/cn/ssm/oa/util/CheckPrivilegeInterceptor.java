@@ -30,7 +30,7 @@ public class CheckPrivilegeInterceptor implements HandlerInterceptor {
 			// 如果不是去登录，就转到登录页面
 			else {
 				request.getRequestDispatcher("/WEB-INF/jsp/user/loginUI.jsp").forward(request, response);
-				return true;
+				return false; // 转到登录页面后不放行，即不会执行访问的action所发出的sql语句
 			}
 		}
 		// 如果已登录，就判断权限
@@ -43,7 +43,7 @@ public class CheckPrivilegeInterceptor implements HandlerInterceptor {
 			// 如果没有权限，转到没权限错误提示页面
 			else {
 				request.getRequestDispatcher("/noPrivilegeError.jsp").forward(request, response);
-				return true;
+				return false; // 转到没权限错误提示页面后不放行，即不会执行访问的action所发出的sql语句
 			}
 		}
 		

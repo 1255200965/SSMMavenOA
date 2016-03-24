@@ -26,8 +26,19 @@ public class Reply {
     private Long topicId;
 
     private String content;
+    
+    @Transient
+    private User author;
 
-    /**
+    public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	/**
      * @return id
      */
     public Long getId() {

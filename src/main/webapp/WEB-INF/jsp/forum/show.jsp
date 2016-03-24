@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
@@ -56,22 +56,22 @@
 				<!--主题列表-->
 				</tbody>
 				<tbody class="dataContainer" datakey="topicList">
-					<c:forEach items="${topicList }" var="topic">
+					<c:forEach items="${page.list }" var="topic">
 					<tr class="demodata_record" id="d0" height="35">
 						<td></td>
 						<td class="ForumTopicPageDataLine" align="center"><img src="${pageContext.request.contextPath }/style/images/topicType_${topic.type }.gif"></td>
 						<td class="Topic"><a class="Default" href="${pageContext.request.contextPath }/BBS_Topic/topicShow.html">${topic.title }</a></td>
 						<td class="ForumTopicPageDataLine">
 							<ul class="ForumPageTopicUl">
-								<li class="Author">${topic.author.id }</li>
-								<li class="CreateTime">${topic.postTime }</li>
+								<li class="Author">${topic.author.name }</li>
+								<li class="CreateTime"><fmt:formatDate value="${topic.postTime }" pattern="yyyy-MM-dd HH:mm:ss" /></li>
 							</ul>
 						</td>
 						<td class="ForumTopicPageDataLine Reply" align="center"><b>${topic.replyCount }</b></td>
 						<td class="ForumTopicPageDataLine">
 							<ul class="ForumPageTopicUl">
-								<li class="Author">user</li>
-								<li class="CreateTime">2010-06-12 18:24</li>
+								<li class="Author">${topic.lastReply.author.name }</li>
+								<li class="CreateTime"><fmt:formatDate value="${topic.lastReply.postTime }"/></li>
 							</ul>
 						</td>
 						<td></td>
@@ -121,41 +121,8 @@
 </div>
 
 <!--分页信息-->
-<div id="PageSelectorBar">
-	<div id="PageSelectorMemo">
-		页次：7/13页 &nbsp;
-		每页显示：30条 &nbsp;
-		总记录数：385条
-	</div>
-	<div id="PageSelectorSelectorArea">
-		<!--
-		<IMG SRC="${pageContext.request.contextPath }/style/blue/images/pageSelector/firstPage2.png"/>
-		-->
-		<a href="javascript:void(0)" title="首页" style="cursor: hand;">
-			<img src="${pageContext.request.contextPath }/style/blue/images/pageSelector/firstPage.png"></a>
-		
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">3</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">4</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">5</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">6</span>
-		<span class="PageSelectorNum PageSelectorSelected">7</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">8</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">9</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">10</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">11</span>
-		<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">12</span>
-		
-		<!--
-		<IMG SRC="${pageContext.request.contextPath }/style/blue/images/pageSelector/lastPage2.png"/>
-		-->
-		<a href="#" title="尾页" style="cursor: hand;">
-			<img src="${pageContext.request.contextPath }/style/blue/images/pageSelector/lastPage.png"></a>
-		
-		转到：
-		<input onfocus="this.select();" maxlength="2" class="inputStyle" value="1" name="currPage" tabindex="0" type="text">
-		<input name="goBtn" value="Go" class="MiddleButtonStyle" type="submit">
-	</div>
-</div>
+<%@ include  file="/WEB-INF/jsp/public/pageView.jspf"%>
+<form action="${pageContext.request.contextPath }/forum/show.action" method="post"></form>
 
 <div class="Description">
 	说明：<br>
