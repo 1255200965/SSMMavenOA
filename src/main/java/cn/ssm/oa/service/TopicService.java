@@ -11,4 +11,6 @@ public interface TopicService {
 	List<Topic> findByForumId(Long id);
 
 	PageInfo<Topic> findByForumIdPage(Long id, Integer pageNum, Integer pageSize);
+
+	void save(Topic topic);
 }

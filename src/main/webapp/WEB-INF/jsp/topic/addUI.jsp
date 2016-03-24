@@ -34,17 +34,16 @@
 
 <!--显示表单内容-->
 <div id="MainArea">
-<s:form action="${pageContext.request.contextPath }/TopicServlet" style="margin: 0; padding: 0;">
-	<input type="hidden" name="method" value="add">
-	<input type="hidden" name="forumId" value="${topic.forum.id }">
+<form action="${pageContext.request.contextPath }/topic/add.action" style="margin: 0; padding: 0;">
+	<input type="hidden" name="forumId" value="${forum.id }">
 	<div id="PageHead"></div>
 	<center>
 		<div class="ItemBlock_Title1">
 			<div width="85%" style="float:left">
 				<font class="MenuPoint"> &gt; </font>
-				<s:a action="forum_list">论坛</s:a>
+				<a href="${pageContext.request.contextPath }/forum/list.action">论坛</a>
 				<font class="MenuPoint"> &gt; </font>
-				<s:a action="forum_show?id=%{#forum.id}">${forum.name }</s:a>
+				<a href="${pageContext.request.contextPath }/forum/show.action?id=${forum.id }">${forum.name }</a>
 				<font class="MenuPoint"> &gt;&gt; </font>
 				发表新主题
 			</div>
@@ -74,7 +73,7 @@
 			</tbody></table>
 		</div>
 	</center>
-</s:form>
+</form>
 </div>
 
 <div class="Description">

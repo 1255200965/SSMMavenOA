@@ -5,7 +5,18 @@ import javax.persistence.*;
 
 @Table(name = "itcast_topic")
 public class Topic {
+	
+	/** 普通帖 */
+	public static final int TYPE_NORMAL = 0;
+
+	/** 精华帖 */
+	public static final int TYPE_BEST = 1;
+
+	/** 置顶帖 */
+	public static final int TYPE_TOP = 2;
+	
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 新增方法需要用到主键返回，维护主题与论坛板块的关联
     private Long id;
 
     private String title;

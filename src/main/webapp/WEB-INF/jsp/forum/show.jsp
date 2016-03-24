@@ -29,7 +29,7 @@
 			<a href="${pageContext.request.contextPath }/forum/list.action">论坛</a>
 			<font class="MenuPoint"> &gt; </font>
 			${forum.name }
-			<span style="margin-left:30px;"><a href="${pageContext.request.contextPath }/TopicServlet?method=addUI">
+			<span style="margin-left:30px;"><a href="${pageContext.request.contextPath }/topic/addUI.action?forumId=${forum.id }">
 				<img src="${pageContext.request.contextPath }/style/blue/images/button/publishNewTopic.png" align="absmiddle"></a>
 			</span>
 		</div>
@@ -122,7 +122,10 @@
 
 <!--分页信息-->
 <%@ include  file="/WEB-INF/jsp/public/pageView.jspf"%>
-<form action="${pageContext.request.contextPath }/forum/show.action" method="post"></form>
+<form action="${pageContext.request.contextPath }/forum/show.action" method="post">
+	<!-- 为show方法传递一个隐藏参数id,表单提交之后才能正常分页，不然分页的数据乱掉，一个论坛板块分页显示其他论坛板块的信息 -->
+	<input type="hidden" name="id" value="${forum.id }">
+</form>
 
 <div class="Description">
 	说明：<br>
