@@ -54,7 +54,7 @@
 					<td class="ForumPageTableDataLine">
 						<ul class="ForumPageTopicUl">
 							<li><font color="#444444">┌ 主题：</font> 
-								<a class="ForumTitle" href="${pageContext.request.contextPath }/BBS_Topic/topicShow.html">${forum.lastTopic.title } </a>
+								<a class="ForumTitle" href="${pageContext.request.contextPath }/topic/show.action?id=${forum.lastTopic.id}">${forum.lastTopic.title } </a>
 							</li>
 							<li><font color="#444444">├ 作者：</font> ${forum.lastTopic.author.name }</li>
 							<li><font color="#444444">└ 时间：</font> <fmt:formatDate value="${forum.lastTopic.postTime }" pattern="yyyy-MM-dd HH:mm:ss" /> </li>

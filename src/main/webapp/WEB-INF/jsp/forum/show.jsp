@@ -60,7 +60,7 @@
 					<tr class="demodata_record" id="d0" height="35">
 						<td></td>
 						<td class="ForumTopicPageDataLine" align="center"><img src="${pageContext.request.contextPath }/style/images/topicType_${topic.type }.gif"></td>
-						<td class="Topic"><a class="Default" href="${pageContext.request.contextPath }/BBS_Topic/topicShow.html">${topic.title }</a></td>
+						<td class="Topic"><a class="Default" href="${pageContext.request.contextPath }/topic/show.action?id=${topic.id }">${topic.title }</a></td>
 						<td class="ForumTopicPageDataLine">
 							<ul class="ForumPageTopicUl">
 								<li class="Author">${topic.author.name }</li>

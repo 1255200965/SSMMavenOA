@@ -95,4 +95,10 @@ public class TopicServiceImpl implements TopicService {
 		forumMapper.updateByPrimaryKeySelective(forum); // 更新该论坛板块特殊属性的值
 	}
 
+	@Override
+	public Topic getById(Long id) {
+		Topic topic = topicMapper.selectByPrimaryKey(id);
+		return topic;
+	}
+
 }

@@ -1,10 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-	<title>查看主题：新手发帖</title>
+	<title>查看主题：${topic.title }</title>
 	<%@include file="/WEB-INF/jsp/public/commons.jspf" %>
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath }/style/blue/forum.css">
 	
@@ -38,12 +38,12 @@
 	<center>
 		<div class="ItemBlock_Title1" style="width: 98%">
 			<font class="MenuPoint"> &gt; </font>
-			<a href="${pageContext.request.contextPath }/BBS_Forum/forumList.html">论坛</a>
+			<a href="${pageContext.request.contextPath }/forum/list.action">论坛</a>
 			<font class="MenuPoint"> &gt; </font>
-			<a href="${pageContext.request.contextPath }/BBS_Forum/forumShow.html">客服常见问题</a>
+			<a href="${pageContext.request.contextPath }/forum/show.action?id=${topic.forumId }">${forum.name }</a>
 			<font class="MenuPoint"> &gt;&gt; </font>
 			帖子阅读
-			<span style="margin-left:30px;"><a href="saveUI.html">
+			<span style="margin-left:30px;"><a href="${pageContext.request.contextPath }/topic/addUI.action?forumId=${forum.id }">
 				<img src="${pageContext.request.contextPath }/style/blue/images/button/publishNewTopic.png" align="absmiddle"></a>
 			</span>
 		</div>
@@ -54,7 +54,7 @@
 			<table border="0" cellpadding="0" cellspacing="0" width="100%">
 				<tbody><tr valign="bottom">
 				<td class="ForumPageTableTitleLeft" width="3">&nbsp;</td>
-					<td class="ForumPageTableTitle"><b>本帖主题：新手发帖</b></td>
+					<td class="ForumPageTableTitle"><b>本帖主题：${topic.title }</b></td>
 					<td class="ForumPageTableTitle" style="padding-right:12px;" align="right">
 						<a class="detail" href="${pageContext.request.contextPath }/BBS_Reply/saveUI.html"><img src="${pageContext.request.contextPath }/style/images/reply.gif" border="0">回复</a>
 						<a href="moveUI.html"><img src="${pageContext.request.contextPath }/style/images/edit.gif" border="0">移动到其他版块</a>
@@ -68,6 +68,8 @@
 			</tbody></table>
 
 			<!-- ~~~~~~~~~~~~~~~ 显示主帖 ~~~~~~~~~~~~~~~ -->
+			<!-- 只是第一页显示主贴，其他页不显示 -->
+			<c:if test="${page.pageNum eq 1 }">
 			<div class="ListArea">
 				<table border="0" cellpadding="0" cellspacing="1" width="100%">
 					<tbody><tr>
@@ -77,7 +79,7 @@
 								<img src="${pageContext.request.contextPath }/style/images/defaultAvatar.gif" onerror="this.onerror=null; this.src='${pageContext.request.contextPath }/style/images/defaultAvatar.gif';" height="110" border="0" width="110">
 							</div>
 							<!--作者名称-->
-							<div class="AuthorName">管理员</div>
+							<div class="AuthorName">${author.name}</div>
 						</td>
 						<td align="center">
 							<ul class="TopicFunc">
@@ -88,22 +90,21 @@
 								</li>
 								<!-- 文章表情与标题 -->
 								<li class="TopicSubject">
-									<img src="${pageContext.request.contextPath }/style/images/face/face1.gif" height="19" width="19">
-									新手发帖
+									${topic.title }
 								</li>
 							</ul>
 						</td>
 					</tr>
 					<tr><!-- 文章内容 -->
 						<td align="center" valign="top">
-							<div class="Content">好好学习，天天向上！</div>
+							<div class="Content">${topic.content }</div>
 						</td>
 					</tr>
 					<tr><!--显示楼层等信息-->
 						<td class="Footer" align="center" height="28" valign="bottom">
 							<ul style="margin: 0px; width: 98%;">
 								<li style="float: left; line-height:18px;"><font color="#C30000">[楼主]</font>
-									2007-08-17 15:18
+									<fmt:formatDate value="${topic.postTime}" pattern="yyyy-MM-dd HH:mm:ss" />
 								</li>
 								<li style="float: right;"><a href="javascript:scroll(0,0)">
 									<img src="${pageContext.request.contextPath }/style/images/top.gif" border="0"></a>
@@ -113,12 +114,14 @@
 					</tr>
 				</tbody></table>
 			</div>
+			</c:if>
 			<!-- ~~~~~~~~~~~~~~~ 显示主帖结束 ~~~~~~~~~~~~~~~ -->
 
 
 			<!-- ~~~~~~~~~~~~~~~ 显示回复列表 ~~~~~~~~~~~~~~~ -->
 			
 			<!-- ~~~~~~~~~~~~~~~ 显示回复列表结束 ~~~~~~~~~~~~~~~ -->
+		<c:forEach items="${page.list }" var="reply" varStatus="status">
 		<div class="ListArea demodata_record">
 				<table border="0" cellpadding="0" cellspacing="1" width="100%">
 					<tbody><tr>
@@ -128,7 +131,7 @@
 								<img src="${pageContext.request.contextPath }/style/images/defaultAvatar.gif" onerror="this.onerror=null; this.src='${pageContext.request.contextPath }/style/images/defaultAvatar.gif';" height="110" border="0" width="110">
 							</div>
 							<!--作者名称-->
-							<div class="AuthorName">管理员</div>
+							<div class="AuthorName">${reply.author.name }</div>
 						</td>
 						<td align="center">
 							<ul class="TopicFunc">
@@ -139,22 +142,21 @@
 								</li>
 								<!-- 文章表情与标题 -->
 								<li class="TopicSubject">
-									<img src="${pageContext.request.contextPath }/style/images/face/face2.gif" height="19" width="19">
-									回复：新手发帖
+									${reply.title }
 								</li>
 							</ul>
 						</td>
 					</tr>
 					<tr><!-- 文章内容 -->
 						<td align="center" valign="top">
-							<div class="Content">欢迎，欢迎，热烈欢迎！<img src="${pageContext.request.contextPath }/script/fckeditor/editor/images/smiley/wangwang/15.gif"></div>
+							<div class="Content">${reply.content }</div>
 						</td>
 					</tr>
 					<tr><!--显示楼层等信息-->
 						<td class="Footer" align="center" height="28" valign="bottom">
 							<ul style="margin: 0px; width: 98%;">
-								<li style="float: left; line-height:18px;"><font color="#C30000">[1楼]</font>
-									2007-08-17 15:18
+								<li style="float: left; line-height:18px;"><font color="#C30000">[${(page.pageNum - 1) * page.pageSize + status.count }楼]</font>
+									<fmt:formatDate value="${reply.postTime }" pattern="yyyy-MM-dd HH:mm:ss" />
 								</li>
 								<li style="float: right;"><a href="javascript:scroll(0,0)">
 									<img src="${pageContext.request.contextPath }/style/images/top.gif" border="0"></a>
@@ -163,132 +165,16 @@
 						</td>
 					</tr>
 				</tbody></table>
-			</div><div class="ListArea demodata_record">
-				<table border="0" cellpadding="0" cellspacing="1" width="100%">
-					<tbody><tr>
-						<td rowspan="3" class="PhotoArea" align="center" valign="top" width="130">
-							<!--作者头像-->
-							<div class="AuthorPhoto">
-								<img src="${pageContext.request.contextPath }/style/images/defaultAvatar.gif" onerror="this.onerror=null; this.src='${pageContext.request.contextPath }/style/images/defaultAvatar.gif';" height="110" border="0" width="110">
-							</div>
-							<!--作者名称-->
-							<div class="AuthorName">管理员</div>
-						</td>
-						<td align="center">
-							<ul class="TopicFunc">
-								<!--操作列表-->
-								<li class="TopicFuncLi">
-									<a class="detail" href="${pageContext.request.contextPath }/BBS_Topic/saveUI.html"><img src="${pageContext.request.contextPath }/style/images/edit.gif" border="0">编辑</a>
-									<a class="detail" href="#" onclick="return confirm('确定要删除本帖吗？')"><img src="${pageContext.request.contextPath }/style/images/delete.gif" border="0">删除</a>
-								</li>
-								<!-- 文章表情与标题 -->
-								<li class="TopicSubject">
-									<img src="${pageContext.request.contextPath }/style/images/face/face5.gif" height="19" width="19">
-									回复：新手发帖
-								</li>
-							</ul>
-						</td>
-					</tr>
-					<tr><!-- 文章内容 -->
-						<td align="center" valign="top">
-							<div class="Content">路过...</div>
-						</td>
-					</tr>
-					<tr><!--显示楼层等信息-->
-						<td class="Footer" align="center" height="28" valign="bottom">
-							<ul style="margin: 0px; width: 98%;">
-								<li style="float: left; line-height:18px;"><font color="#C30000">[2楼]</font>
-									2007-08-17 15:18
-								</li>
-								<li style="float: right;"><a href="javascript:scroll(0,0)">
-									<img src="${pageContext.request.contextPath }/style/images/top.gif" border="0"></a>
-								</li>
-							</ul>
-						</td>
-					</tr>
-				</tbody></table>
-			</div><div class="ListArea demodata_record">
-				<table border="0" cellpadding="0" cellspacing="1" width="100%">
-					<tbody><tr>
-						<td rowspan="3" class="PhotoArea" align="center" valign="top" width="130">
-							<!--作者头像-->
-							<div class="AuthorPhoto">
-								<img src="${pageContext.request.contextPath }/style/images/defaultAvatar.gif" onerror="this.onerror=null; this.src='${pageContext.request.contextPath }/style/images/defaultAvatar.gif';" height="110" border="0" width="110">
-							</div>
-							<!--作者名称-->
-							<div class="AuthorName">管理员</div>
-						</td>
-						<td align="center">
-							<ul class="TopicFunc">
-								<!--操作列表-->
-								<li class="TopicFuncLi">
-									<a class="detail" href="${pageContext.request.contextPath }/BBS_Topic/saveUI.html"><img src="${pageContext.request.contextPath }/style/images/edit.gif" border="0">编辑</a>
-									<a class="detail" href="#" onclick="return confirm('确定要删除本帖吗？')"><img src="${pageContext.request.contextPath }/style/images/delete.gif" border="0">删除</a>
-								</li>
-								<!-- 文章表情与标题 -->
-								<li class="TopicSubject">
-									<img src="${pageContext.request.contextPath }/style/images/face/face3.gif" height="19" width="19">
-									回复：新手发帖
-								</li>
-							</ul>
-						</td>
-					</tr>
-					<tr><!-- 文章内容 -->
-						<td align="center" valign="top">
-							<div class="Content"><img src="${pageContext.request.contextPath }/script/fckeditor/editor/images/smiley/wangwang/11.gif"></div>
-						</td>
-					</tr>
-					<tr><!--显示楼层等信息-->
-						<td class="Footer" align="center" height="28" valign="bottom">
-							<ul style="margin: 0px; width: 98%;">
-								<li style="float: left; line-height:18px;"><font color="#C30000">[3楼]</font>
-									2007-08-17 15:18
-								</li>
-								<li style="float: right;"><a href="javascript:scroll(0,0)">
-									<img src="${pageContext.request.contextPath }/style/images/top.gif" border="0"></a>
-								</li>
-							</ul>
-						</td>
-					</tr>
-				</tbody></table>
-			</div></div>
+		</div>
+		</c:forEach>
+		</div>
 
 		<!--分页信息-->
-		<div id="PageSelectorBar">
-			<div id="PageSelectorMemo">
-				页次：7/13页 &nbsp;
-				每页显示：30条 &nbsp;
-				总记录数：385条
-			</div>
-			<div id="PageSelectorSelectorArea">
-				<!--
-				<IMG SRC="${pageContext.request.contextPath }/style/blue/images/pageSelector/firstPage2.png"/>
-				-->
-				<a href="javascript:void(0)" title="首页" style="cursor: hand;">
-					<img src="${pageContext.request.contextPath }/style/blue/images/pageSelector/firstPage.png"></a>
-				
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">3</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">4</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">5</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">6</span>
-				<span class="PageSelectorNum PageSelectorSelected">7</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">8</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">9</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">10</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">11</span>
-				<span class="PageSelectorNum" style="cursor: hand;" onclick="gotoPageNum(2);">12</span>
-				
-				<!--
-				<IMG SRC="${pageContext.request.contextPath }/style/blue/images/pageSelector/lastPage2.png"/>
-				-->
-				<a href="#" title="尾页" style="cursor: hand;">
-					<img src="${pageContext.request.contextPath }/style/blue/images/pageSelector/lastPage.png"></a>
-				
-				转到：
-				<input onfocus="this.select();" maxlength="2" class="inputStyle" value="1" name="currPage" tabindex="0" type="text">
-				<input name="goBtn" value="Go" class="MiddleButtonStyle" type="submit">
-			</div>
-		</div>
+		<%@ include  file="/WEB-INF/jsp/public/pageView.jspf"%>
+		<form action="${pageContext.request.contextPath }/topic/show.action" method="post">
+			<!-- 为show方法传递一个隐藏参数id,表单提交之后才能正常分页，不然分页的数据乱掉 -->
+			<input type="hidden" name="id" value="${topic.id }">
+		</form>
 
 		<div class="ForumPageTableBorder" style="margin-top: 25px;">
 			<table border="0" cellpadding="0" cellspacing="0" width="100%">
