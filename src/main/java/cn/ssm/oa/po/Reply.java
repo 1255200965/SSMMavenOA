@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "itcast_reply")
 public class Reply {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 新增回复记录需要主键返回(维护关联关系的时候需要使用)
     private Long id;
 
     private String title;

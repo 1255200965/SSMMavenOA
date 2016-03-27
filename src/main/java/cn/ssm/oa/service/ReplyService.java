@@ -12,4 +12,6 @@ public interface ReplyService {
 
 	PageInfo<Reply> findByTopicIdPage(Long id, Integer pageNum, Integer pageSize);
 
+	void save(Reply reply);
+
 }

@@ -8,13 +8,13 @@
 	<%@include file="/WEB-INF/jsp/public/commons.jspf" %>
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath }/style/blue/forum.css">
 	
-	<script language="javascript" src="${pageContext.request.contextPath }/script/fckeditor/fckeditor.js" charset="utf-8"></script>
+	<script language="javascript" src="${pageContext.request.contextPath }/fckeditor/fckeditor.js" charset="utf-8"></script>
     <script type="text/javascript">
 		$(function(){
 			var fck = new FCKeditor("content");
 			fck.Width = "90%";
 			fck.ToolbarSet = "bbs";
-			fck.BasePath = "${pageContext.request.contextPath }/script/fckeditor/";
+			fck.BasePath = "${pageContext.request.contextPath }/fckeditor/";
 			fck.ReplaceTextarea();
 		});
     </script>
@@ -56,7 +56,7 @@
 				<td class="ForumPageTableTitleLeft" width="3">&nbsp;</td>
 					<td class="ForumPageTableTitle"><b>本帖主题：${topic.title }</b></td>
 					<td class="ForumPageTableTitle" style="padding-right:12px;" align="right">
-						<a class="detail" href="${pageContext.request.contextPath }/BBS_Reply/saveUI.html"><img src="${pageContext.request.contextPath }/style/images/reply.gif" border="0">回复</a>
+						<a class="detail" href="${pageContext.request.contextPath }/reply/addUI.action?topicId=${topic.id }"><img src="${pageContext.request.contextPath }/style/images/reply.gif" border="0">回复</a>
 						<a href="moveUI.html"><img src="${pageContext.request.contextPath }/style/images/edit.gif" border="0">移动到其他版块</a>
 						<a href="#" onclick="return confirm('要把本主题设为精华吗？')"><img src="${pageContext.request.contextPath }/style/images/forum_hot.gif" border="0">精华</a>
 						<a href="#" onclick="return confirm('要把本主题设为置顶吗？')"><img src="${pageContext.request.contextPath }/style/images/forum_top.gif" border="0">置顶</a>
@@ -192,19 +192,20 @@
 			
 	<!--快速回复-->
 	<div class="QuictReply">
-	<form action="">
+	<form action="${pageContext.request.contextPath }/reply/add.action">
+		<input type="hidden" name="topicId" value="${topic.id }">
 		<div style="padding-left: 3px;">
 			<table class="TableStyle" border="0" cellpadding="5" cellspacing="1" width="98%">
 				<tbody><tr class="Tint" height="30">
 					<td class="Deep" width="50px"><b>标题</b></td>
 					<td class="no_color_bg">
-						<input name="title" class="InputStyle" value="回复：昨天发现在表单里删除的图片" style="width:90%" type="text">
+						<input name="title" class="InputStyle" value="回复：${topic.title }" style="width:90%" type="text" readonly="readonly">
 					</td>
 				</tr>
 				<tr class="Tint" height="200">
 					<td rowspan="2" class="Deep" valign="top"><b>内容</b></td>
 					<td class="no_color_bg" valign="top">
-						<input id="content___Config" value="" style="display:none" type="hidden"><iframe style="margin: 0px; padding: 0px; border: 0px none; background-color: transparent; background-image: none; width: 90%; height: 200px;" id="content___Frame" src="${pageContext.request.contextPath }/script/fckeditor/editor/fckeditor.html?InstanceName=content&amp;Toolbar=bbs" scrolling="no" frameborder="0" height="200" width="90%"></iframe><textarea name="content" style="width: 95%; height: 300px; display: none;"></textarea>
+						<textarea name="content" style="width: 95%; height: 300px;"></textarea>
 					</td>
 				</tr>
 				<tr class="Tint" height="30">
