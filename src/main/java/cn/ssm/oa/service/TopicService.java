@@ -10,7 +10,7 @@ public interface TopicService {
 
 	List<Topic> findByForumId(Long id);
 
-	PageInfo<Topic> findByForumIdPage(Long id, Integer pageNum, Integer pageSize);
+	PageInfo<Topic> findByForumIdPage(Long id, Integer pageNum, Integer pageSize, Integer viewType, Integer orderBy, Boolean asc);
 
 	void save(Topic topic);
 

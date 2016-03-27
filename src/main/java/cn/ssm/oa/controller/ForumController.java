@@ -39,11 +39,18 @@ public class ForumController {
 	 * @return
 	 */
 	@RequestMapping("/show")
-	public String show(Model model, Long id, Integer pageNum, Integer pageSize) {
+	public String show(Model model, Long id, Integer pageNum, Integer pageSize, Integer viewType, Integer orderBy, Boolean asc) {
 		Forum forum = forumService.getById(id);
 		model.addAttribute("forum", forum);
-		PageInfo<Topic> page = topicService.findByForumIdPage(id, pageNum, pageSize);
+		PageInfo<Topic> page = topicService.findByForumIdPage(id, pageNum, pageSize, viewType, orderBy, asc);
 		model.addAttribute("page", page);
+		
+		/*
+		 * 回显过滤与排序条件参数
+		 */
+		model.addAttribute("viewType", viewType);
+		model.addAttribute("orderBy", orderBy);
+		model.addAttribute("asc", asc);
 		return "forum/show";
 	}
 }

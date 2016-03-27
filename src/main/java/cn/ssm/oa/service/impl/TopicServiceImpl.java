@@ -20,6 +20,7 @@ import cn.ssm.oa.po.Topic;
 import cn.ssm.oa.po.User;
 import cn.ssm.oa.service.TopicService;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 public class TopicServiceImpl implements TopicService {
 
@@ -44,9 +45,11 @@ public class TopicServiceImpl implements TopicService {
 	 * 中事务控制配置的通知的方法命名规则，才能执行一级缓存，即方法内userMapper.selectByPrimaryKey(topic.getAuthorId());
 	 * 如果authorId一样只查询一次，同样的再一级缓存中读取，如果方法命名为pageFindByForumId，并不是<tx:method>中事物控制的方法
 	 * 不能使用一级缓存，即：同样的sql每次都发出，降低了数据库性能(一级缓存默认不用配置，默认开启)
+	 * 
+	 * 添加过滤与排序条件
 	 */
 	@Override
-	public PageInfo<Topic> findByForumIdPage(Long id, Integer pageNum, Integer pageSize) {
+	public PageInfo<Topic> findByForumIdPage(Long id, Integer pageNum, Integer pageSize, Integer viewType, Integer orderBy, Boolean asc) {
 		if (pageNum == null || pageNum == 0) {
 			pageNum = 1; // 默认显示第一页数据
 		}
@@ -54,13 +57,39 @@ public class TopicServiceImpl implements TopicService {
 			pageSize = 10; // 默认页面显示10条数据
 		}
 		Example example = new Example(Topic.class);
-		example.or().andEqualTo("forumId", id);
-		/* 
-		 * 设置默认的排序条件:
-		 * 以类型降序排列，置顶帖在上面，精华帖和普通帖一起混合排列
-		 * 类型相同的情况下，以最新更新时间降序排列
+		Criteria criteria = example.or();
+		criteria.andEqualTo("forumId", id);
+		
+		/* 过滤与排序条件的默认值 */
+		if (viewType == null) {
+			viewType = 0;
+		}
+		if (orderBy == null) {
+			orderBy = 0;
+		}
+		if (asc == null) {
+			asc = false;
+		}
+		
+		/*
+		 * 添加过滤条件
 		 */
-		example.setOrderByClause("(CASE type WHEN 2 THEN 2 ELSE 0 END) DESC, lastUpdateTime DESC");
+		if (viewType == 1) { // 1表示只看精华帖
+			criteria.andEqualTo("type", Topic.TYPE_BEST);
+		}
+		
+		/* 
+		 * 设置排序条件
+		 */
+		if (orderBy == 1) { // 1 表示只按最后更新时间排序
+			example.setOrderByClause("lastUpdateTime " + (asc == true ? "ASC" : "DESC"));
+		} else if (orderBy == 2) { // 2 表示只按主题发表时间排序
+			example.setOrderByClause("postTime " + (asc == true ? "ASC" : "DESC")) ;
+		} else if (orderBy == 3) { // 3 表示只按回复数量排序
+			example.setOrderByClause("replyCount " + (asc == true ? "ASC" : "DESC")) ;
+		} else { // 默认排序(所有置顶帖在前面，并按最后更新时间降序排列)
+			example.setOrderByClause("(CASE type WHEN 2 THEN 2 ELSE 0 END) DESC, lastUpdateTime DESC");
+		}
 		PageHelper.startPage(pageNum, pageSize); // 可以使用指定排序条件的startPage方法
 		List<Topic> list = topicMapper.selectByExample(example);
 		for (Topic topic : list) {
